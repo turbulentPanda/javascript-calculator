@@ -94,7 +94,7 @@ body {
 	padding: 2%;
 	width: 25%;
 }
-
+/******** Display ********/
 #display {
 	align-items: space-between;
 	border: 1px solid black;
@@ -116,3 +116,33 @@ body {
 #expression {
 	font-size: 1rem;
 }
+
+/******** Operations Pad ********/
+#operations-pad {
+	border: 1px solid black;
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: 1fr;
+	grid-template-rows: repeat(6, 1fr);
+	height: 100%;
+	width: 100%;
+}
+
+.row {
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: 1fr;
+	height: 100%;
+	width: 100%;
+}
+
+.row-6-container {
+	grid-template-areas:
+	"zero   decimal   equals-sign   equals-sign";
+}
+
+#equals-sign {
+	grid-area: equals-sign;
+}
+
