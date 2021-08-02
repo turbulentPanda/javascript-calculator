@@ -75,16 +75,44 @@ body {
 	width: 100%;
 }
 
+/*************** Calculator Layout ***************/
+
 #calculator {
 	border: 2px solid #fc6471;
 	display: grid;
+	grid-gap: 30px;
 	grid-template-areas:
 		"display"
 		"operations-pad";
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 5fr;
 	height: 75%;
 	max-height: 800px;
 	max-width: 600px;
 	min-height: 500px;
 	min-width: 400px;
+	padding: 2%;
 	width: 25%;
+}
+
+#display {
+	align-items: space-between;
+	border: 1px solid black;
+	display: grid;
+	grid-area: display;
+	grid-template-columns: 1fr;
+	grid-template-rows: 3fr 1fr;
+	height: 100%;
+	justify-items: right;
+	min-height: 75px;
+	padding: 15px 20px;
+	width: 100%;
+}
+
+#result {
+	font-size: 2.5rem;
+}
+
+#expression {
+	font-size: 1rem;
 }
