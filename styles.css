@@ -50,6 +50,10 @@ table {
 /************* End CSS Reset *************/
 :root {
 	font-family: 'Roboto Mono', monospace;
+	--dark-mode-main: #364250;
+	--dark-mode-operators: #91f2ad;
+	--dark-mode-digits: #eee5e9;
+	
 }
 
 * {
@@ -78,7 +82,9 @@ body {
 /*************** Calculator Layout ***************/
 
 #calculator {
-	border: 2px solid #fc6471;
+	background: var(--dark-mode-main);
+	border-radius: 20px;
+	box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25);
 	display: grid;
 	grid-gap: 30px;
 	grid-template-areas:
@@ -91,8 +97,8 @@ body {
 	max-width: 600px;
 	min-height: 500px;
 	min-width: 400px;
-	padding: 2%;
-	width: 25%;
+	padding: max(25px, 2%);
+	width: 20%;
 }
 /******** Display ********/
 #display {
@@ -119,11 +125,11 @@ body {
 
 /******** Operations Pad ********/
 #operations-pad {
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	display: grid;
 	grid-gap: 10px;
 	grid-template-columns: 1fr;
-	grid-template-rows: repeat(6, 1fr);
+	grid-template-rows: 1fr repeat(5, 2fr);
 	height: 100%;
 	width: 100%;
 }
@@ -144,5 +150,26 @@ body {
 
 #equals-sign {
 	grid-area: equals-sign;
+}
+
+#display,
+button {
+	background: var(--dark-mode-main);
+	border: none;
+	border-radius: 20px;
+	box-shadow:
+		5px 5px 7px 0 rgba(0, 0, 0, .25),
+		-1px -1px 4px 0 rgba(255, 255, 255, .3);
+	color: var(--dark-mode-digits);
+	cursor: pointer;
+	font-size: 2rem;
+}
+
+.row-1-container > button {
+	font-size: 1.5rem;
+}
+
+.operator {
+	color: var(--dark-mode-operators);
 }
 
