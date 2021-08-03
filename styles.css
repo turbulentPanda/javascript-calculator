@@ -52,6 +52,7 @@ table {
 	--dark-box-shadow: 5px 5px 7px 0 rgba(0, 0, 0, .25),
 	-1px -1px 4px 0 rgba(255, 255, 255, .3);
 	--dark-mode-background: #28313c;
+	/* --dark-mode-background: #292F36; */
 	--dark-mode-main: #364250;
 	--dark-mode-operators: #91f2ad;
 	--dark-mode-digits: #eee5e9;
