@@ -1,3 +1,4 @@
+// ************** Dark and Light Mode Functions **************
 const darkModeController = document.querySelector('#dark-mode-controller');
 darkModeController.addEventListener('click', () => toggleLightMode());
 
@@ -61,10 +62,6 @@ function factorial(number1) {
     } else {
         return number1 * factorial(number1 - 1);
     }
-}
-
-function getPi() {
-    return 3.14159;
 }
 
 function negateNumber(number1) {
