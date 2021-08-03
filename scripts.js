@@ -46,10 +46,6 @@ function divide(number1, number2) {
     }
 }
 
-function exponentiation(number1) {
-    return Math.E ** number1;
-}
-
 function power(number1, number2) {
     return number1 ** number2;
 }
