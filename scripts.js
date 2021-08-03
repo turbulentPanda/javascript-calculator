@@ -1,8 +1,7 @@
 const darkModeController = document.querySelector('#dark-mode-controller');
+darkModeController.addEventListener('click', () => toggleLightMode());
 
-darkModeController.addEventListener('click', () => toggleDarkMode());
-
-function toggleDarkMode() {
+function toggleLightMode() {
     const body = document.querySelector('body');
     body.classList.toggle('light-mode');
 

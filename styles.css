@@ -266,6 +266,10 @@ button.light-mode {
 	color: var(--light-mode-digits);
 }
 
+button:hover {
+	transform: scale(1.05);
+}
+
 .row-1-container > button {
 	font-size: min(24px, 1.5rem);
 }
