@@ -3,8 +3,10 @@ const darkModeController = document.querySelector('#dark-mode-controller');
 darkModeController.addEventListener('click', () => toggleDarkMode());
 
 function toggleDarkMode() {
-    const buttons = document.querySelectorAll('button');
+    const body = document.querySelector('body');
+    body.classList.toggle('light-mode');
 
+    const buttons = document.querySelectorAll('button');
     buttons.forEach(button => {
         button.classList.toggle('light-mode');
     });

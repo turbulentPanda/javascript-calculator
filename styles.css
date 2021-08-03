@@ -51,7 +51,6 @@ table {
 :root {
 	--dark-box-shadow: 5px 5px 7px 0 rgba(0, 0, 0, .25),
 	-1px -1px 4px 0 rgba(255, 255, 255, .3);
-	--dark-mode-background: #6d9dc5;
 	--dark-mode-background: #28313c;
 	--dark-mode-main: #364250;
 	--dark-mode-operators: #91f2ad;
@@ -63,6 +62,9 @@ table {
 	--light-mode-main: #ffe3e3;
 	--light-mode-operators: #f71735;
 	--light-mode-digits: #545863;
+
+	--switch-container-height: 40px;
+	--switch-container-width: calc(var(--switch-container-height) * 2);
 
 	font-family: 'Roboto Mono', monospace;
 
@@ -92,6 +94,10 @@ body.light-mode {
 
 #overall-page-container {
 	display: grid;
+	grid-gap: 20px;
+	grid-template-areas: 
+		"dark-mode-controller"
+		"calculator";
 	grid-template-columns: 1fr;
 	grid-template-rows: auto 1fr;
 	height: 100%;
@@ -103,9 +109,48 @@ body.light-mode {
 	background: var(--light-mode-background);
 }
 
+/*************** Dark Mode Controller ***************/
 #dark-mode-controller {
+	grid-area: dark-mode-controller;
 	justify-self: end;
-	margin: 30px 30px 0 0;
+	margin-right: 30px;
+	margin-top: 30px;
+}
+
+
+input[type="checkbox"] {
+	appearance: none;
+	background-color: var(--dark-mode-operators);
+	border-radius: calc(var(--switch-container-height) * 0.5);
+	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+	height: var(--switch-container-height);
+	outline: none;
+	position: relative;
+	width: var(--switch-container-width);
+	transition: all 0.5s;
+}
+
+input[type="checkbox"]:checked {
+	background: var(--light-mode-operators);
+}
+
+input[type="checkbox"]::before {
+	background: var(--dark-mode-main) url('assets/dark-mode-icon.svg') no-repeat center;
+	border-radius: 50%;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	content: '';
+	height: var(--switch-container-height);
+	left: 0;
+	position: absolute;
+	top: 0;
+	transform: scale(1.1);
+	transition: all 0.5s;
+	width: var(--switch-container-height);
+}
+
+input:checked[type="checkbox"]::before {
+	background: var(--light-mode-main) url('assets/light-mode-icon.svg') no-repeat center;
+	left: var(--switch-container-height);
 }
 
 /*************** Calculator Layout ***************/
@@ -115,13 +160,14 @@ body.light-mode {
 	border-radius: 20px;
 	box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, .35), -2px -2px 4px 0 rgba(255, 255, 255, .2);
 	display: grid;
+	grid-area: calculator;
 	grid-gap: 30px;
 	grid-template-areas:
 		"display"
 		"operations-pad";
 	grid-template-columns: 1fr;
 	grid-template-rows: 1fr 5fr;
-	height: max(75%, 650px);
+	height: max(75vh, 700px);
 	max-width: 600px;
 	min-height: 500px;
 	min-width: 400px;
@@ -164,7 +210,7 @@ body.light-mode {
 }
 
 #result {
-	font-size: 2.5rem;
+	font-size: max(24px, 2.5rem);
 }
 
 #result.light-mode {
@@ -172,7 +218,7 @@ body.light-mode {
 }
 
 #expression {
-	font-size: 1rem;
+	font-size: min(24px, 1rem);
 }
 
 /******** Operations Pad ********/
@@ -210,7 +256,7 @@ button {
 	box-shadow: var(--dark-box-shadow);
 	color: var(--dark-mode-digits);
 	cursor: pointer;
-	font-size: 2rem;
+	font-size: max(24px, 2rem);
 }
 
 button.light-mode {
@@ -220,7 +266,7 @@ button.light-mode {
 }
 
 .row-1-container > button {
-	font-size: 1.5rem;
+	font-size: min(24px, 1.5rem);
 }
 
 .operator {
