@@ -70,7 +70,7 @@ operators.forEach((operator) => {
 function updateCalculatorOperator(operatorSymbol) {
     if (calculator.number1String && !calculator.number2String &&
         !calculator.operator) {
-        if (operatorSymbol === '!' && calculator.number1HasDecimal) {
+        if (operatorSymbol === '!' && (calculator.number1HasDecimal || calculator.number1IsNegative)) {
             return;
         }
         calculator.operator += operatorSymbol;
@@ -162,7 +162,7 @@ function negateNumber() {
             calculator.number2String = calculator.number2String.slice(1);
             calculator.number2IsNegative = false;
         }
-    } else {
+    } else if (calculator.operator !== '!') {
         if (!calculator.number1IsNegative) {
             calculator.number1IsNegative = true;
             calculator.number1String = '-' + calculator.number1String;
