@@ -37,10 +37,17 @@ const calculator = {
         return this.number2String;
     },
 
+    number1IsNegative: false,
+    number2IsNegative: false,
+
     number1HasDecimal: false,
     number2HasDecimal: false,
 
     operator: '',
+
+    getOperator: function () {
+        return this.operator;
+    },
 
     result: '',
 }
@@ -107,9 +114,11 @@ clearButton.addEventListener('click', () => { clearCalculator() });
 function clearCalculator() {
     calculator.number1String = '';
     calculator.number1 = '';
+    calculator.number1IsNegative = false;
     calculator.number1HasDecimal = false;
     calculator.number2String = '';
     calculator.number2 = '';
+    calculator.number2IsNegative = false;
     calculator.number2HasDecimal = false;
     calculator.operator = '';
     calculator.result = '';
@@ -138,7 +147,31 @@ function backspace() {
     updateExpression();
 }
 
-// ************** Operation Functions **************
+const negateOperator = document.getElementById('negate-operator');
+negateOperator.addEventListener('click', () => { negateNumber(); });
+
+function negateNumber() {
+    if (calculator.operator && calculator.operator !== '!') {
+        if (!calculator.number2IsNegative) {
+            calculator.number2String = '-' + calculator.number2String;
+            calculator.number2IsNegative = true;
+        } else if (calculator.number2IsNegative) {
+            calculator.number2String = calculator.number2String.slice(1);
+            calculator.number2IsNegative = false;
+        }
+    } else {
+        if (!calculator.number1IsNegative) {
+            calculator.number1IsNegative = true;
+            calculator.number1String = '-' + calculator.number1String;
+        } else if (calculator.number1IsNegative) {
+            calculator.number1IsNegative = false;
+            calculator.number1String = calculator.number1String.slice(1);
+        }
+    }
+    updateExpression();
+}
+
+// ************** Mathematical Functions **************
 function add(number1, number2) {
     return number1 + number2;
 }
@@ -170,14 +203,6 @@ function factorial(number1) {
         return 1;
     } else {
         return number1 * factorial(number1 - 1);
-    }
-}
-
-function negateNumber(number1) {
-    if (number1 === 0) {
-        return 0;
-    } else {
-        return -number1;
     }
 }
 
