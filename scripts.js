@@ -53,8 +53,6 @@ const calculator = {
 
     operator: '',
 
-    expression: '',
-
     result: '',
 }
 
@@ -62,7 +60,7 @@ const calculator = {
 const numbers = document.querySelectorAll('.number');
 numbers.forEach((number) => {
     number.addEventListener('click', () => {
-        updateCalculatorNumberStrings(String(number.value))
+        updateCalculatorNumberStrings(String(number.value));
     }), false
 });
 
@@ -74,7 +72,8 @@ binaryOperators.forEach((binaryOperator) => {
 })
 
 function updateCalculatorOperator(operatorSymbol) {
-    if (calculator.number1String && !calculator.number2String) {
+    if (calculator.number1String && !calculator.number2String &&
+        !calculator.operator) {
         calculator.operator += operatorSymbol;
     }
     updateExpression();
@@ -85,6 +84,20 @@ function updateCalculatorNumberStrings(inputNumber) {
         calculator.number2String += inputNumber;
     } else if (!calculator.operator) {
         calculator.number1String += inputNumber;
+    }
+    updateExpression();
+}
+
+const decimalButton = document.getElementById('decimal');
+decimalButton.addEventListener('click', () => { addDecimal(); });
+
+function addDecimal() {
+    if (calculator.operator && !calculator.number2HasDecimal) {
+        calculator.number2HasDecimal = true;
+        calculator.number2String += '.';
+    } else if (!calculator.operator && !calculator.number1HasDecimal) {
+        calculator.number1HasDecimal = true;
+        calculator.number1String += '.';
     }
     updateExpression();
 }
@@ -106,10 +119,11 @@ clearButton.addEventListener('click', () => { clearCalculator() });
 function clearCalculator() {
     calculator.number1String = '';
     calculator.number1 = '';
+    calculator.number1HasDecimal = false;
     calculator.number2String = '';
     calculator.number2 = '';
+    calculator.number2HasDecimal = false;
     calculator.operator = '';
-    calculator.expression = '';
     calculator.result = '';
     updateExpression();
 }
