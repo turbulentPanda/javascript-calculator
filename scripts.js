@@ -135,10 +135,16 @@ backspaceButton.addEventListener('click', () => {
 
 function backspace() {
     if (calculator.number2String) {
+        if (calculator.number2String[calculator.number2String.length - 1] === '.') {
+            calculator.number2HasDecimal = false;
+        }
         calculator.number2String = calculator.number2String.slice(0, -1);
     } else if (calculator.operator) {
         calculator.operator = '';
     } else if (calculator.number1String) {
+        if (calculator.number1String[calculator.number1String.length - 1] === '.') {
+            calculator.number1HasDecimal = false;
+        }
         calculator.number1String = calculator.number1String.slice(0, -1);
     }
     updateExpression();
