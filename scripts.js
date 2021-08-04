@@ -32,24 +32,13 @@ const calculator = {
         return this.number1String;
     },
 
-    number1: Number(this.number1String),
-    getNumber1: function () {
-        return this.number1;
-    },
-
     number2String: '',
     getNumber2String: function () {
         return this.number2String;
     },
 
-    number2: Number(this.number2String),
-    getNumber2: function () {
-        return this.number2;
-    },
-
     number1HasDecimal: false,
     number2HasDecimal: false,
-
 
     operator: '',
 
@@ -64,10 +53,10 @@ numbers.forEach((number) => {
     }), false
 });
 
-const binaryOperators = document.querySelectorAll('.binary-operator');
-binaryOperators.forEach((binaryOperator) => {
-    binaryOperator.addEventListener('click', () => {
-        updateCalculatorOperator(` ${binaryOperator.value} `);
+const operators = document.querySelectorAll('.binary-operator, #factorial-operator');
+operators.forEach((operator) => {
+    operator.addEventListener('click', () => {
+        updateCalculatorOperator(`${operator.value}`);
     }), false
 })
 
@@ -80,7 +69,7 @@ function updateCalculatorOperator(operatorSymbol) {
 }
 
 function updateCalculatorNumberStrings(inputNumber) {
-    if (calculator.operator) {
+    if (calculator.operator && calculator.operator !== '!') {
         calculator.number2String += inputNumber;
     } else if (!calculator.operator) {
         calculator.number1String += inputNumber;
@@ -92,7 +81,7 @@ const decimalButton = document.getElementById('decimal');
 decimalButton.addEventListener('click', () => { addDecimal(); });
 
 function addDecimal() {
-    if (calculator.operator && !calculator.number2HasDecimal) {
+    if (calculator.operator && calculator.operator !== '!' && !calculator.number2HasDecimal) {
         calculator.number2HasDecimal = true;
         calculator.number2String += '.';
     } else if (!calculator.operator && !calculator.number1HasDecimal) {
@@ -104,8 +93,7 @@ function addDecimal() {
 
 function updateExpression() {
     const expression = document.getElementById('expression');
-    expression.textContent = `${calculator.number1String} 
-        ${calculator.operator} ${calculator.number2String}`;
+    expression.textContent = `${calculator.number1String} ${calculator.operator} ${calculator.number2String}`;
 }
 
 function updateResult() {
@@ -149,6 +137,7 @@ function backspace() {
     }
     updateExpression();
 }
+
 // ************** Operation Functions **************
 function add(number1, number2) {
     return number1 + number2;
@@ -191,3 +180,5 @@ function negateNumber(number1) {
         return -number1;
     }
 }
+
+// ************** Evaluation Functions **************
