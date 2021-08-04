@@ -70,6 +70,9 @@ operators.forEach((operator) => {
 function updateCalculatorOperator(operatorSymbol) {
     if (calculator.number1String && !calculator.number2String &&
         !calculator.operator) {
+        if (operatorSymbol === '!' && calculator.number1HasDecimal) {
+            return;
+        }
         calculator.operator += operatorSymbol;
     }
     updateExpression();
