@@ -25,6 +25,110 @@ function toggleLightMode() {
 
 }
 
+// ************** Calculator Object **************
+const calculator = {
+    number1String: '',
+    getNumber1String: function () {
+        return this.number1String;
+    },
+
+    number1: Number(this.number1String),
+    getNumber1: function () {
+        return this.number1;
+    },
+
+    number2String: '',
+    getNumber2String: function () {
+        return this.number2String;
+    },
+
+    number2: Number(this.number2String),
+    getNumber2: function () {
+        return this.number2;
+    },
+
+    number1HasDecimal: false,
+    number2HasDecimal: false,
+
+
+    operator: '',
+
+    expression: '',
+
+    result: '',
+}
+
+// ************** Display Functions **************
+const numbers = document.querySelectorAll('.number');
+numbers.forEach((number) => {
+    number.addEventListener('click', () => {
+        updateCalculatorNumberStrings(String(number.value))
+    }), false
+});
+
+const binaryOperators = document.querySelectorAll('.binary-operator');
+binaryOperators.forEach((binaryOperator) => {
+    binaryOperator.addEventListener('click', () => {
+        updateCalculatorOperator(` ${binaryOperator.value} `);
+    }), false
+})
+
+function updateCalculatorOperator(operatorSymbol) {
+    if (calculator.number1String && !calculator.number2String) {
+        calculator.operator += operatorSymbol;
+    }
+    updateExpression();
+}
+
+function updateCalculatorNumberStrings(inputNumber) {
+    if (calculator.operator) {
+        calculator.number2String += inputNumber;
+    } else if (!calculator.operator) {
+        calculator.number1String += inputNumber;
+    }
+    updateExpression();
+}
+
+function updateExpression() {
+    const expression = document.getElementById('expression');
+    expression.textContent = `${calculator.number1String} 
+        ${calculator.operator} ${calculator.number2String}`;
+}
+
+function updateResult() {
+    const result = document.getElementById('result');
+    result.textContent = `${calculator.result}`;
+}
+
+const clearButton = document.getElementById('clear-button');
+clearButton.addEventListener('click', () => { clearCalculator() });
+
+function clearCalculator() {
+    calculator.number1String = '';
+    calculator.number1 = '';
+    calculator.number2String = '';
+    calculator.number2 = '';
+    calculator.operator = '';
+    calculator.expression = '';
+    calculator.result = '';
+    updateExpression();
+}
+
+const backspaceButton = document.getElementById('backspace-button');
+backspaceButton.addEventListener('click', () => {
+    backspace();
+});
+
+function backspace() {
+    if (calculator.number2String) {
+        calculator.number2String = calculator.number2String.slice(0, -1);
+    } else if (calculator.operator) {
+        calculator.operator = '';
+    } else if (calculator.number1String) {
+        calculator.number1String = calculator.number1String.slice(0, -1);
+    }
+    updateExpression();
+}
 // ************** Operation Functions **************
 function add(number1, number2) {
     return number1 + number2;
