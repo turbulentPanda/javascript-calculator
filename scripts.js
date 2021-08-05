@@ -64,17 +64,17 @@ const operators = document.querySelectorAll('.binary-operator, #factorial-operat
 operators.forEach((operator) => {
     operator.addEventListener('click', () => {
         if (calculator.number2String) {
-            calculator.result = operate();
-            updateResult();
-            calculator.number2String = '';
-            calculator.number2HasDecimal = false;
+            compressExpression();
             calculator.operator = operator.value;
-            calculator.number1String = calculator.result;
             updateExpression();
         }
         updateCalculatorOperator(`${operator.value}`);
     }), false
 })
+
+function useOperator() {
+
+}
 
 function updateCalculatorOperator(operatorSymbol) {
     if (calculator.number1String && !calculator.number2String &&
@@ -94,6 +94,75 @@ function updateCalculatorNumberStrings(inputNumber) {
         calculator.number1String += inputNumber;
     }
     updateExpression();
+}
+
+document.addEventListener('keydown', function (event) {
+    if (event.key === '0') {
+        updateCalculatorNumberStrings(0);
+    } else if (event.key === '1') {
+        updateCalculatorNumberStrings(1);
+    } else if (event.key === '2') {
+        updateCalculatorNumberStrings(2);
+    } else if (event.key === '3') {
+        updateCalculatorNumberStrings(3);
+    } else if (event.key === '4') {
+        updateCalculatorNumberStrings(4);
+    } else if (event.key === '5') {
+        updateCalculatorNumberStrings(5);
+    } else if (event.key === '6') {
+        updateCalculatorNumberStrings(6);
+    } else if (event.key === '7') {
+        updateCalculatorNumberStrings(7);
+    } else if (event.key === '8') {
+        updateCalculatorNumberStrings(8);
+    } else if (event.key === '9') {
+        updateCalculatorNumberStrings(9);
+    } else if (event.key === '.') {
+        addDecimal();
+    } else if (event.key === 'Backspace') {
+        backspace();
+    } else if (event.key === 'Delete') {
+        clearCalculator();
+    } else if (event.key === 'Enter') {
+        calculator.result = operate();
+        updateResult();
+    } else if (event.key === '*') {
+        if (calculator.number2String) {
+            compressExpression();
+            calculator.operator = '\u00D7';
+            updateExpression();
+        }
+        updateCalculatorOperator(`\u00D7`);
+    } else if (event.key === '/') {
+        if (calculator.number2String) {
+            compressExpression();
+            calculator.operator = '\u00F7';
+            updateExpression();
+        }
+        updateCalculatorOperator(`\u00F7`);
+    } else if (event.key === '-') {
+        if (calculator.number2String) {
+            compressExpression();
+            calculator.operator = '\u2212';
+            updateExpression();
+        }
+        updateCalculatorOperator(`\u2212`);
+    } else if (event.key === '+') {
+        if (calculator.number2String) {
+            compressExpression();
+            calculator.operator = '+';
+            updateExpression();
+        }
+        updateCalculatorOperator(`+`);
+    }
+});
+
+function compressExpression() {
+    calculator.result = operate();
+    updateResult();
+    calculator.number2String = '';
+    calculator.number2HasDecimal = false;
+    calculator.number1String = calculator.result;
 }
 
 const decimalButton = document.getElementById('decimal');
@@ -155,7 +224,7 @@ function backspace() {
         if (calculator.number1String[calculator.number1String.length - 1] === '.') {
             calculator.number1HasDecimal = false;
         }
-        calculator.number1String = calculator.number1String.slice(0, -1);
+        calculator.number1String = String(calculator.number1String).slice(0, -1);
     }
     updateExpression();
 }
