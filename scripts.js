@@ -63,6 +63,15 @@ numbers.forEach((number) => {
 const operators = document.querySelectorAll('.binary-operator, #factorial-operator');
 operators.forEach((operator) => {
     operator.addEventListener('click', () => {
+        if (calculator.number2String) {
+            calculator.result = operate();
+            updateResult();
+            calculator.number2String = '';
+            calculator.number2HasDecimal = false;
+            calculator.operator = operator.value;
+            calculator.number1String = calculator.result;
+            updateExpression();
+        }
         updateCalculatorOperator(`${operator.value}`);
     }), false
 })
@@ -79,9 +88,9 @@ function updateCalculatorOperator(operatorSymbol) {
 }
 
 function updateCalculatorNumberStrings(inputNumber) {
-    if (calculator.operator && calculator.operator !== '!') {
+    if (calculator.operator && calculator.operator !== '!' && calculator.number2String.length < 11) {
         calculator.number2String += inputNumber;
-    } else if (!calculator.operator) {
+    } else if ((!calculator.operator) && (calculator.number1String.length < 11)) {
         calculator.number1String += inputNumber;
     }
     updateExpression();
@@ -126,6 +135,7 @@ function clearCalculator() {
     calculator.operator = '';
     calculator.result = '';
     updateExpression();
+    updateResult();
 }
 
 const backspaceButton = document.getElementById('backspace-button');
@@ -176,37 +186,88 @@ function negateNumber() {
 
 // ************** Mathematical Functions **************
 function add(number1, number2) {
-    return number1 + number2;
+    let answer = +(number1 + number2).toPrecision(6);
+    if (String(answer).length > 10) { answer = answer.toExponential(); }
+    return answer;
 }
 
 function subtract(number1, number2) {
-    return number1 - number2;
+    let answer = +(number1 - number2).toPrecision(6);
+    if (String(answer).length > 10) { answer = answer.toExponential(); }
+    return answer;
 }
 
 function multiply(number1, number2) {
-    return number1 * number2;
+    let answer = +(number1 * number2).toPrecision(6);
+    if (String(answer).length > 10) { answer = answer.toExponential(); }
+    return answer;
 }
 
 function divide(number1, number2) {
     if (number2 === 0) {
-        return "Did you REALLY divide by 0?"
+        alert("Did you REALLY try to divide by 0?")
     } else {
-        return number1 / number2;
+        let answer = +(number1 / number2).toPrecision(6);
+        if (String(answer).length > 10) { answer = answer.toExponential(); }
+        return answer;
     }
 }
 
 function power(number1, number2) {
-    return number1 ** number2;
+    let answer = +(number1 ** number2).toPrecision(6);
+    if (String(answer).length > 10) { answer = answer.toExponential(); }
+    return answer;
 }
 
 function factorial(number1) {
-    if (number1 === 0) {
+    if (number1 > 170) {
+        return Infinity;
+    } else if (number1 < 0) {
+        alert('Cannot take factorial of negative number');
+    } else if (!Number.isInteger(number1)) {
+        alert('Sorry, only integers allowed with this factorial operation!');
+    } else if (number1 === 0) {
         return 1;
     } else if (number1 === 1) {
         return 1;
     } else {
-        return number1 * factorial(number1 - 1);
+        let answer = number1 * factorial(number1 - 1);
+        answer = +answer.toPrecision(6);
+        if (String(answer).length > 10) { answer = answer.toExponential(); }
+        return answer;
     }
 }
 
 // ************** Evaluation Functions **************
+const result = document.getElementById('result');
+
+const equalsSign = document.getElementById('equals-sign');
+equalsSign.addEventListener('click', () => {
+    if (calculator.operator !== '!') {
+        if (!calculator.number2String) { return; }
+    }
+    calculator.result = operate();
+    updateResult();
+});
+
+function operate() {
+    const number1 = Number(calculator.getNumber1String());
+    const number2 = Number(calculator.getNumber2String());
+    const operator = calculator.getOperator();
+
+    if (operator === '+') {
+        return add(number1, number2);
+    } else if (operator === '\u2212') {
+        return subtract(number1, number2);
+    } else if (operator.normalize() === '\u00D7'.normalize()) {
+        return multiply(number1, number2);
+    } else if (operator === '\u00F7') {
+        return divide(number1, number2);
+    } else if (operator === '^') {
+        return power(number1, number2);
+    } else if (operator === '!') {
+        return factorial(number1);
+    } else if (operator === '') {
+        return number1;
+    }
+}
