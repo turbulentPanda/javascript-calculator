@@ -1,5 +1,9 @@
 # JavaScript Calculator
 
+## Live Preview
+
+https://turbulentpanda.github.io/javascript-calculator/
+
 ## Project Motivation:
 To practice vanilla JavaScript, DOM Manipulation, event handling, and project planning.
 
